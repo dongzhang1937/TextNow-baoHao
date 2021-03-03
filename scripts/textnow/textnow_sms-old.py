@@ -39,17 +39,26 @@ class Textnow:
     #for key, value in settings.items():
     #    profile.set_preference(key, value)
     #profile.update_preferences()
-    #
+    
+    #https://github.com/mozilla/geckodriver/releases
     options = webdriver.FirefoxOptions()
     options.add_argument('-headless')  # 无头参数
-
-    #https://sites.google.com/a/chromium.org/chromedriver/home
-    #driver = webdriver.Chrome(r'C:/Python27/Scripts/chromedriver')
-
-    #https://github.com/mozilla/geckodriver/releases
-    driver = webdriver.Firefox(executable_path='geckodriver', options=options)
+    #options.add_argument('-private')  # 隐身模式
+    driver = webdriver.Firefox(options=options)
+    #
+    #driver = webdriver.Firefox(executable_path='geckodriver', options=options)
     #driver = webdriver.Firefox(firefox_profile=profile, options=options)
     #driver = webdriver.Firefox(proxy = proxy)
+
+    #https://sites.google.com/a/chromium.org/chromedriver/home
+    #options = webdriver.ChromeOptions()
+    #options.add_argument('--headless')# 无头参数
+    #options.add_argument('--disable-web-security')# 禁用web安全参数
+    #options.add_argument('--incognito')# 无痕参数
+    #options.add_argument('--user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"')# user-agent参数
+    
+    #chrome_driver = '/opt/hostedtoolcache/Python/3.7.9/x64/lib/python3.7/site-packages/seleniumbase-1.42.4-py3.7.egg/seleniumbase/drivers/chromedriver'  #chromedriver的文件位置
+    #driver = webdriver.Chrome(executable_path = chrome_driver, chrome_options=options)   
     
     #这两种设置都进行才有效
     #driver.set_page_load_timeout(5)
@@ -60,12 +69,10 @@ class Textnow:
         driver.get(self.url)
     except:
         pass
-    #强制等待8s,主要是等待reCaptcha加载
-    time.sleep(8)
     
     # 分辨率 1920*1080
     driver.set_window_size(1920,1080)
-    time.sleep(3)
+    time.sleep(10)
 
     #presence_of_element_located： 当我们不关心元素是否可见，只关心元素是否存在在页面中。
     #visibility_of_element_located： 当我们需要找到元素，并且该元素也可见。
@@ -81,7 +88,7 @@ class Textnow:
 
     #显性等待，每隔3s检查一下条件是否成立
     try:
-      WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, "//button[@id='newText']")))
+      WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, "//div[@class='notification-priming-modal']")))
     except:
       pass
 
